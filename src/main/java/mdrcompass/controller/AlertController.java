@@ -1,7 +1,7 @@
 package mdrcompass.controller;
 
 import mdrcompass.model.Alert;
-import mdrcompass.repository.AlertRepository;
+import mdrcompass.service.AlertService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,50 +11,41 @@ import java.util.List;
 @RequestMapping("/api/alerts")
 public class AlertController {
 
-    private final AlertRepository alertRepository;
+    private final AlertService alertService;
 
-    public AlertController(AlertRepository alertRepository) {
-        this.alertRepository = alertRepository;
+    public AlertController(AlertService alertService) {
+        this.alertService = alertService;
     }
 
     @GetMapping
     public List<Alert> getAlerts() {
-        return alertRepository.findAll();
+        return alertService.getAllAlerts();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Alert> getAlertById(@PathVariable Long id) {
-        return alertRepository.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(alertService.getAlertById(id));
     }
 
     @GetMapping("/search")
     public List<Alert> searchAlerts(@RequestParam String name) {
-        return alertRepository.findByNameContainingIgnoreCase(name);
+        return alertService.searchAlerts(name);
     }
 
     @PostMapping
     public ResponseEntity<Alert> createAlert(@RequestBody Alert alert) {
-        Alert saved = alertRepository.save(alert);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(alertService.createAlert(alert));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Alert> updateAlert(@PathVariable Long id, @RequestBody Alert alert) {
-        if (!alertRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        alert.setName(alert.getName());
-        return ResponseEntity.ok(alertRepository.save(alert));
+        return ResponseEntity.ok(alertService.updateAlert(id, alert));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAlert(@PathVariable Long id) {
-        if (!alertRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-        alertRepository.deleteById(id);
+        alertService.deleteAlert(id);
         return ResponseEntity.noContent().build();
     }
 }
