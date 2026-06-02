@@ -5,7 +5,11 @@
 
   let { children } = $props()
 
-  let currentPage = $derived(page.url.pathname.startsWith('/admin') ? 'admin' : 'console')
+  let currentPage = $derived(
+    page.url.pathname.startsWith('/admin') ? 'admin' :
+    page.url.pathname.startsWith('/processes') ? 'processes' :
+    'console'
+  )
 </script>
 
 <TopNav {currentPage} />
