@@ -8,13 +8,24 @@
       <span class="logo-icon">◊</span>
     </div>
     <span class="app-name">MDR Compass</span>
-    <span class="page-label">{currentPage === 'admin' ? 'ADMIN' : 'ANALYST CONSOLE'}</span>
+    <span class="page-label">
+      {#if currentPage === 'admin'}
+        ADMIN
+      {:else if currentPage === 'processes'}
+        PROCESS ATLAS
+      {:else}
+        ANALYST CONSOLE
+      {/if}
+    </span>
   </div>
   <div class="right">
     {#if currentPage === 'admin'}
       <a href="/" class="nav-link">← Back to analyst console</a>
+    {:else if currentPage === 'processes'}
+      <a href="/" class="nav-link">← Back to analyst console</a>
     {:else}
-      <a href="/admin" class="nav-link">⚙</a>
+      <a href="/processes" class="nav-link nav-atlas">Process Atlas</a>
+      <a href="/admin" class="nav-link nav-settings">⚙</a>
     {/if}
   </div>
 </header>
@@ -64,6 +75,7 @@
   .right {
     display: flex;
     align-items: center;
+    gap: 16px;
   }
   .nav-link {
     color: var(--text-secondary);
@@ -72,5 +84,15 @@
   }
   .nav-link:hover {
     color: var(--text-primary);
+  }
+  .nav-atlas {
+    font-size: 12px;
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .nav-atlas:hover {
+    border-color: var(--teal);
+    color: var(--teal);
   }
 </style>
