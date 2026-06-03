@@ -1,6 +1,6 @@
 import type { Alert } from './types'
 
-const BASE_URL = 'http://localhost:8080/api'
+const BASE_URL = import.meta.env.DEV ? 'http://localhost:8080/api' : '/api'
 
 export async function getAlerts(): Promise<Alert[]> {
   const response = await fetch(`${BASE_URL}/alerts`)
