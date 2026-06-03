@@ -462,4 +462,33 @@
     font-size: 16px;
     margin-top: 40px;
   }
+  @media (max-width: 768px) {
+    .layout {
+      flex-direction: column;
+    }
+    .categories {
+      width: 100%;
+      height: auto;
+      max-height: 150px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      overflow-x: auto;
+      padding: 4px;
+    }
+    .cat-item {
+      padding: 6px 10px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .process-list {
+      width: 100%;
+      max-height: 250px;
+    }
+    .detail-panel {
+      padding: 16px;
+    }
+    .cmd-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>

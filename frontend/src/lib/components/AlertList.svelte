@@ -113,4 +113,12 @@
     color: var(--kc-exfil);
     border-color: var(--kc-exfil);
   }
+  @media (max-width: 768px) {
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    table {
+      min-width: 700px;
+    }
+  }
 </style>

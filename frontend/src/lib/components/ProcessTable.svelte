@@ -96,4 +96,12 @@
     border-radius: var(--radius);
     background: var(--bg-card);
   }
+  @media (max-width: 768px) {
+    .table-wrapper {
+      overflow-x: auto;
+    }
+    table {
+      min-width: 600px;
+    }
+  }
 </style>

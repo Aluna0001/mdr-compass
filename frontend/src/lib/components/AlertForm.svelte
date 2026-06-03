@@ -305,4 +305,15 @@
     color: var(--kc-exfil);
     border-color: var(--kc-exfil);
   }
+  @media (max-width: 768px) {
+    .field-row {
+      flex-direction: column;
+    }
+    .hint-row, .process-row {
+      flex-direction: column;
+    }
+    .hint-label {
+      width: 100%;
+    }
+  }
 </style>

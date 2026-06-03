@@ -56,4 +56,9 @@
     line-height: 1.5;
     color: var(--text-primary);
   }
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
 </style>
