@@ -95,4 +95,12 @@
     border-color: var(--teal);
     color: var(--teal);
   }
+  @media (max-width: 768px) {
+    .page-label {
+      display: none;
+    }
+    .app-name {
+      font-size: 13px;
+    }
+  }
 </style>

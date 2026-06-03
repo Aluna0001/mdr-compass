@@ -52,4 +52,15 @@
     color: var(--text-secondary);
     max-width: 700px;
   }
+  @media (max-width: 768px) {
+    .detail {
+      padding: 16px;
+    }
+    h1 {
+      font-size: 22px;
+    }
+    .badges {
+      flex-wrap: wrap;
+    }
+  }
 </style>

@@ -137,4 +137,10 @@
     color: var(--text-muted);
     font-size: 14px;
   }
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      height: calc(100vh - 48px);
+    }
+  }
 </style>
