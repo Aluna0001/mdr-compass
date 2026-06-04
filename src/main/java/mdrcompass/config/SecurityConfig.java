@@ -23,7 +23,7 @@ public class SecurityConfig {
 
     @Value("${app.username:analyst}")
     private String username;
-
+    //Tjek om det her har betydning for passworded.
     @Value("${app.password:compass2026}")
     private String password;
 
@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()

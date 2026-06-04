@@ -1,5 +1,7 @@
 package mdrcompass.controller;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -18,9 +20,17 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
+    private final Counter loginSuccessCounter;
+    private final Counter loginFailureCounter;
 
-    public AuthController(AuthenticationManager authenticationManager) {
+    public AuthController(AuthenticationManager authenticationManager, MeterRegistry meterRegistry) {
         this.authenticationManager = authenticationManager;
+        this.loginSuccessCounter = Counter.builder("auth.login.success")
+                .description("Number of successful login attempts")
+                .register(meterRegistry);
+        this.loginFailureCounter = Counter.builder("auth.login.failure")
+                .description("Number of failed login attempts")
+                .register(meterRegistry);
     }
 
     @PostMapping("/login")
@@ -39,8 +49,10 @@ public class AuthController {
             SecurityContextHolder.setContext(context);
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", context);
+            loginSuccessCounter.increment();
             return ResponseEntity.ok(Map.of("status", "ok"));
         } catch (Exception e) {
+            loginFailureCounter.increment();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("status", "error", "message", "Invalid credentials"));
         }
