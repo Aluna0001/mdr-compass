@@ -4,6 +4,8 @@ import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +20,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     private final AuthenticationManager authenticationManager;
     private final Counter loginSuccessCounter;
@@ -37,10 +41,13 @@ public class AuthController {
     public ResponseEntity<Map<String, String>> login(
             @RequestBody Map<String, String> credentials,
             HttpServletRequest request) {
+        String clientIp = getClientIp(request);
+        String username = credentials.get("username");
+
         try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            credentials.get("username"),
+                            username,
                             credentials.get("password")
                     )
             );
@@ -50,9 +57,11 @@ public class AuthController {
             HttpSession session = request.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", context);
             loginSuccessCounter.increment();
+            logger.info("LOGIN SUCCESS | user={} | ip={}", username, clientIp);
             return ResponseEntity.ok(Map.of("status", "ok"));
         } catch (Exception e) {
             loginFailureCounter.increment();
+            logger.warn("LOGIN FAILURE | user={} | ip={}", username, clientIp);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("status", "error", "message", "Invalid credentials"));
         }
@@ -65,5 +74,17 @@ public class AuthController {
             return ResponseEntity.ok(Map.of("status", "authenticated", "username", auth.getName()));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("status", "unauthenticated"));
+    }
+
+    private String getClientIp(HttpServletRequest request) {
+        String xForwardedFor = request.getHeader("X-Forwarded-For");
+        if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
+            return xForwardedFor.split(",")[0].trim();
+        }
+        String xRealIp = request.getHeader("X-Real-IP");
+        if (xRealIp != null && !xRealIp.isEmpty()) {
+            return xRealIp;
+        }
+        return request.getRemoteAddr();
     }
 }
