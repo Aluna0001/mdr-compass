@@ -23,6 +23,9 @@ jobs:
       - name: Run Checkstyle
         run: ./mvnw checkstyle:check
 
+      - name: Run SpotBugs
+        run: ./mvnw spotbugs:check
+
   build-frontend:
     name: Build frontend
     runs-on: ubuntu-latest
