@@ -10,7 +10,6 @@ public class Alert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
 
     @Column(columnDefinition = "TEXT")
@@ -32,19 +31,31 @@ public class Alert {
     @CollectionTable(name = "alert_processes", joinColumns = @JoinColumn(name = "alert_id"))
     private List<RelatedProcess> relatedProcesses;
 
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public String getKillChain() { return killChain; }
-    public void setKillChain(String killChain) { this.killChain = killChain; }
-    public String getMitreId() { return mitreId; }
-    public void setMitreId(String mitreId) { this.mitreId = mitreId; }
-    public List<String> getSuspiciousIndicators() { return suspiciousIndicators; }
-    public void setSuspiciousIndicators(List<String> suspiciousIndicators) { this.suspiciousIndicators = suspiciousIndicators; }
-    public List<WhatToLookFor> getWhatToLookFor() { return whatToLookFor; }
-    public void setWhatToLookFor(List<WhatToLookFor> whatToLookFor) { this.whatToLookFor = whatToLookFor; }
-    public List<RelatedProcess> getRelatedProcesses() { return relatedProcesses; }
-    public void setRelatedProcesses(List<RelatedProcess> relatedProcesses) { this.relatedProcesses = relatedProcesses; }
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setKillChain(String killChain) {
+        this.killChain = killChain;
+    }
+
+    public void setMitreId(String mitreId) {
+        this.mitreId = mitreId;
+    }
 }

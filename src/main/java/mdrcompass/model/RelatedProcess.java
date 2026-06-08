@@ -9,10 +9,12 @@ public class RelatedProcess {
     private String legitimatePath;
     private String suspiciousPath;
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-    public String getLegitimatePath() { return legitimatePath; }
-    public void setLegitimatePath(String legitimatePath) { this.legitimatePath = legitimatePath; }
-    public String getSuspiciousPath() { return suspiciousPath; }
-    public void setSuspiciousPath(String suspiciousPath) { this.suspiciousPath = suspiciousPath; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
