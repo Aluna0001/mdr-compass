@@ -24,3 +24,4 @@ public class WhatToLookFor {
         this.question = question;
     }
 }
+

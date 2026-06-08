@@ -17,4 +17,20 @@ public class RelatedProcess {
         this.name = name;
     }
 
+    public String getLegittimatePath() {
+        return legitimatePath;
+    }
+
+    public void setLegitimatePath(String legitimatePath) {
+        this.legitimatePath = legitimatePath;
+    }
+
+    public String getSuspiciousPath() {
+        return suspiciousPath;
+    }
+
+    public void setSuspiciousPath(String suspiciousPath) {
+        this.suspiciousPath = suspiciousPath;
+    }
+
 }
