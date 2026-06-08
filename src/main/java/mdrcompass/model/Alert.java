@@ -36,6 +36,7 @@ public class Alert {
     }
 
     public String getName() {
+
         return name;
     }
 
@@ -44,18 +45,30 @@ public class Alert {
     }
 
     public String getDescription() {
+
         return description;
     }
 
     public void setDescription(String description) {
+
         this.description = description;
     }
 
     public void setKillChain(String killChain) {
+
         this.killChain = killChain;
     }
 
     public void setMitreId(String mitreId) {
+
         this.mitreId = mitreId;
+    }
+
+    public String getKillChain() {
+        return killChain;
+    }
+
+    public String getMitreId() {
+        return mitreId;
     }
 }
