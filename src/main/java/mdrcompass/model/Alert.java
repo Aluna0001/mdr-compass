@@ -10,11 +10,11 @@ public class Alert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
     private String killChain;
     private String mitreId;
 
