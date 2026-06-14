@@ -21,11 +21,10 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    @Value("${app.username:analyst}")
+    @Value("${app.username}")
     private String username;
 
-    //Tjek om det her har betydning for passworded.
-    @Value("${app.password:compass2026}")
+    @Value("${app.password}")
     private String password;
 
     @Bean
