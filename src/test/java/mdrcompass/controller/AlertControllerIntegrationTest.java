@@ -123,6 +123,9 @@ class AlertControllerIntegrationTest {
                         .content(updatedJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("Updated Alert"));
+
+        mockMvc.perform(get("/api/alerts"))
+                .andExpect(jsonPath("$.length()").value(1));
     }
 
     @Test
