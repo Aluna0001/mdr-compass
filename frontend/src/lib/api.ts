@@ -16,6 +16,13 @@ export async function login(username: string, password: string): Promise<boolean
   return response.ok
 }
 
+export async function logout(): Promise<void> {
+  await fetch(`${BASE_URL}/auth/logout`, {
+    method: 'POST',
+    credentials: 'include'
+  })
+}
+
 export async function checkAuth(): Promise<{ authenticated: boolean; role: string }> {
   try {
     const response = await fetch(`${BASE_URL}/auth/status`, fetchOptions)

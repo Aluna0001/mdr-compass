@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { currentPage = 'console', isAdmin = false }: { currentPage?: string; isAdmin?: boolean } = $props()
+  let { currentPage = 'console', isAdmin = false, onLogout }: { currentPage?: string; isAdmin?: boolean; onLogout: () => void } = $props()
 </script>
 
 <header class="topnav">
@@ -19,16 +19,17 @@
     </span>
   </div>
   <div class="right">
-    {#if currentPage === 'admin'}
-      <a href="/" class="nav-link">← Back to analyst console</a>
-    {:else if currentPage === 'processes'}
-      <a href="/" class="nav-link">← Back to analyst console</a>
-    {:else}
-  <a href="/processes" class="nav-link nav-atlas">Process Atlas</a>
-  {#if isAdmin}
-    <a href="/admin" class="nav-link nav-settings">⚙</a>
-  {/if}
-{/if}
+      {#if currentPage === 'admin'}
+        <a href="/" class="nav-link">← Back to analyst console</a>
+      {:else if currentPage === 'processes'}
+        <a href="/" class="nav-link">← Back to analyst console</a>
+      {:else}
+        <a href="/processes" class="nav-link nav-atlas">Process Atlas</a>
+        {#if isAdmin}
+          <a href="/admin" class="nav-link nav-settings">⚙</a>
+        {/if}
+      {/if}
+      <button class="nav-logout" onclick={onLogout}>Log out</button>
   </div>
 </header>
 
@@ -94,15 +95,29 @@
     border-radius: 4px;
   }
   .nav-atlas:hover {
-    border-color: var(--teal);
-    color: var(--teal);
-  }
-  @media (max-width: 768px) {
-    .page-label {
-      display: none;
+      border-color: var(--teal);
+      color: var(--teal);
     }
-    .app-name {
-      font-size: 13px;
+    .nav-logout {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-family: inherit;
     }
-  }
-</style>
+    .nav-logout:hover {
+      border-color: var(--kc-exfil);
+      color: var(--kc-exfil);
+    }
+    @media (max-width: 768px) {
+      .page-label {
+        display: none;
+      }
+      .app-name {
+        font-size: 13px;
+      }
+    }
+  </style>
