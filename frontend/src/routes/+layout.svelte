@@ -2,7 +2,7 @@
   import '../app.css'
   import TopNav from '$lib/components/TopNav.svelte'
   import LoginPage from '$lib/components/LoginPage.svelte'
-  import { checkAuth } from '$lib/api'
+  import { checkAuth, logout } from '$lib/api'
   import { page } from '$app/state'
 
   let { children } = $props()
@@ -29,6 +29,12 @@
     verifyAuth()
   }
 
+  async function handleLogout() {
+    await logout()
+    authenticated = false
+    role = ''
+  }
+
   verifyAuth()
 </script>
 
@@ -37,14 +43,14 @@
 {:else if !authenticated}
   <LoginPage onLogin={handleLogin} />
 {:else if currentPage === 'admin' && !isAdmin}
-  <TopNav {currentPage} {isAdmin} />
+  <TopNav {currentPage} {isAdmin} onLogout={handleLogout} />
   <div class="no-access">
     <h1>Access denied</h1>
     <p>You do not have permission to view this page.</p>
     <a href="/">← Back to analyst console</a>
   </div>
 {:else}
-  <TopNav {currentPage} {isAdmin} />
+  <TopNav {currentPage} {isAdmin} onLogout={handleLogout} />
   {@render children()}
 {/if}
 

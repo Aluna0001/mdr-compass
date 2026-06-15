@@ -68,6 +68,16 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Map<String, String>> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        SecurityContextHolder.clearContext();
+        return ResponseEntity.ok(Map.of("status", "ok"));
+    }
+
     @GetMapping("/status")
     public ResponseEntity<Map<String, String>> status() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
