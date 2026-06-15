@@ -1,5 +1,5 @@
 <script lang="ts">
-  let { currentPage = 'console' }: { currentPage?: string } = $props()
+  let { currentPage = 'console', isAdmin = false }: { currentPage?: string; isAdmin?: boolean } = $props()
 </script>
 
 <header class="topnav">
@@ -24,9 +24,11 @@
     {:else if currentPage === 'processes'}
       <a href="/" class="nav-link">← Back to analyst console</a>
     {:else}
-      <a href="/processes" class="nav-link nav-atlas">Process Atlas</a>
-      <a href="/admin" class="nav-link nav-settings">⚙</a>
-    {/if}
+  <a href="/processes" class="nav-link nav-atlas">Process Atlas</a>
+  {#if isAdmin}
+    <a href="/admin" class="nav-link nav-settings">⚙</a>
+  {/if}
+{/if}
   </div>
 </header>
 

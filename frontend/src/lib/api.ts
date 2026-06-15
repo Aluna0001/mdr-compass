@@ -16,12 +16,16 @@ export async function login(username: string, password: string): Promise<boolean
   return response.ok
 }
 
-export async function checkAuth(): Promise<boolean> {
+export async function checkAuth(): Promise<{ authenticated: boolean; role: string }> {
   try {
     const response = await fetch(`${BASE_URL}/auth/status`, fetchOptions)
-    return response.ok
+    if (!response.ok) {
+      return { authenticated: false, role: '' }
+    }
+    const data = await response.json()
+    return { authenticated: true, role: data.role ?? '' }
   } catch {
-    return false
+    return { authenticated: false, role: '' }
   }
 }
 
