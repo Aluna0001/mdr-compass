@@ -162,4 +162,33 @@ class AlertControllerIntegrationTest {
         mockMvc.perform(get("/api/alerts"))
                 .andExpect(status().isForbidden());
     }
+
+    @Test
+    @WithMockUser(roles = "ANALYST")
+    void analystCanGetAlerts() throws Exception {
+        mockMvc.perform(get("/api/alerts"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(roles = "ANALYST")
+    void analystCannotCreateAlert() throws Exception {
+        String json = objectMapper.writeValueAsString(createTestAlert());
+
+        mockMvc.perform(post("/api/alerts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
+    void adminCanCreateAlert() throws Exception {
+        String json = objectMapper.writeValueAsString(createTestAlert());
+
+        mockMvc.perform(post("/api/alerts")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isCreated());
+    }
 }
