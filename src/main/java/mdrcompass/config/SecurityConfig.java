@@ -21,11 +21,18 @@ import java.util.List;
 @Configuration
 public class SecurityConfig {
 
-    @Value("${app.username}")
-    private String username;
+    @Value("${app.admin.username}")
+    private String adminUsername;
 
-    @Value("${app.password}")
-    private String password;
+    @Value("${app.admin.password}")
+    private String adminPassword;
+
+    @Value("${app.analyst.username}")
+    private String analystUsername;
+
+    @Value("${app.analyst.password}")
+    private String analystPassword;
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -51,12 +58,17 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        var user = User.builder()
-                .username(username)
-                .password(passwordEncoder().encode(password))
-                .roles("USER")
+        var admin = User.builder()
+                .username(adminUsername)
+                .password(passwordEncoder().encode(adminPassword))
+                .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(user);
+        var analyst = User.builder()
+                .username(analystUsername)
+                .password(passwordEncoder().encode(analystPassword))
+                .roles("ANALYST")
+                .build();
+        return new InMemoryUserDetailsManager(admin, analyst);
     }
 
     @Bean

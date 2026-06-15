@@ -33,8 +33,10 @@ class AlertControllerIntegrationTest {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
-        registry.add("app.username", () -> "testuser");
-        registry.add("app.password", () -> "testpass");
+        registry.add("app.admin.username", () -> "admin");
+        registry.add("app.admin.password", () -> "adminpass");
+        registry.add("app.analyst.username", () -> "analyst");
+        registry.add("app.analyst.password", () -> "analystpass");
     }
 
     @Autowired
