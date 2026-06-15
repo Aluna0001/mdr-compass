@@ -62,7 +62,7 @@ class AlertControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void createAndGetAlert() throws Exception {
         String json = objectMapper.writeValueAsString(createTestAlert());
 
@@ -82,7 +82,7 @@ class AlertControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void getAllAlerts() throws Exception {
         String json1 = objectMapper.writeValueAsString(createTestAlert());
 
@@ -106,7 +106,7 @@ class AlertControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void updateAlert() throws Exception {
         String json = objectMapper.writeValueAsString(createTestAlert());
 
@@ -131,7 +131,7 @@ class AlertControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void deleteAlert() throws Exception {
         String json = objectMapper.writeValueAsString(createTestAlert());
 
@@ -151,7 +151,7 @@ class AlertControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(roles = "ADMIN")
     void getAlertNotFound() throws Exception {
         mockMvc.perform(get("/api/alerts/999"))
                 .andExpect(status().isNotFound());
