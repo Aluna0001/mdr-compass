@@ -1,103 +1,87 @@
 <script lang="ts">
-  import type { Alert } from '$lib/types'
-  import { getAlerts } from '$lib/api'
-  import AlertSidebar from '$lib/components/AlertSidebar.svelte'
-  import AlertDetail from '$lib/components/AlertDetail.svelte'
-
-  let alerts = $state<Alert[]>([])
-  let selectedAlert = $state<Alert | null>(null)
-  let showDetail = $state(false)
-
-  async function loadAlerts() {
-    alerts = await getAlerts()
-    if (alerts.length > 0 && !selectedAlert) {
-      selectedAlert = alerts[0]
-    }
-  }
-
-  function handleSelect(alert: Alert) {
-    selectedAlert = alert
-    showDetail = true
-  }
-
-  function handleBack() {
-    showDetail = false
-  }
-
-  loadAlerts()
+  const tools = [
+    { href: '/console', title: 'Analyst Console', description: 'Look up alert types with investigation guidance and related processes.' },
+    { href: '/processes', title: 'Process Atlas', description: 'Browse Windows processes with legitimate and suspicious paths.' },
+    { href: '/news', title: 'Security News', description: 'Latest headlines from The Hacker News.' }
+  ]
 </script>
 
-<div class="layout" class:show-detail={showDetail}>
-  <div class="sidebar-container">
-    <AlertSidebar
-      {alerts}
-      selectedId={selectedAlert?.id ?? null}
-      onSelect={handleSelect}
-    />
+<div class="home-bg">
+  <div class="home">
+    <header class="home-header">
+      <h1>MDR Compass</h1>
+      <p class="subtitle">Choose a tool to get started.</p>
+    </header>
+
+    <div class="card-grid">
+      {#each tools as tool}
+        <a class="card" href={tool.href}>
+          <h2>{tool.title}</h2>
+          <p>{tool.description}</p>
+        </a>
+      {/each}
+    </div>
   </div>
-  <main class="content">
-    {#if selectedAlert}
-      <button class="back-btn" onclick={handleBack}>← Back to alerts</button>
-      <AlertDetail alert={selectedAlert} />
-    {:else}
-      <p class="empty">Select an alert from the sidebar</p>
-    {/if}
-  </main>
 </div>
 
 <style>
-  .layout {
-    display: flex;
-    height: calc(100vh - 48px);
+  .home-bg {
+    min-height: calc(100vh - 48px);
+    background-image: linear-gradient(rgba(13, 17, 23, 0.88), rgba(13, 17, 23, 0.92)), url('/cyber.jpg');
+    background-size: cover;
+    background-position: center;
   }
-  .sidebar-container {
-    flex-shrink: 0;
+  .home {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 32px;
   }
-  .content {
-    flex: 1;
-    overflow-y: auto;
+  .home-header {
+    margin-bottom: 32px;
   }
-  .empty {
-    color: var(--text-muted);
-    font-size: 16px;
-    padding: 40px 32px;
-  }
-  .back-btn {
-    display: none;
-    padding: 10px 16px;
-    background: var(--bg-surface);
-    border: none;
-    border-bottom: 1px solid var(--border);
-    color: var(--text-secondary);
-    font-size: 13px;
-    cursor: pointer;
-    width: 100%;
-    text-align: left;
-    font-family: inherit;
-  }
-  .back-btn:hover {
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
     color: var(--text-primary);
   }
-
+  .subtitle {
+    margin-top: 6px;
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .card {
+    display: block;
+    padding: 24px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+  }
+  .card:hover {
+    border-color: var(--ring);
+  }
+  .card h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  .card p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+  }
   @media (max-width: 768px) {
-    .layout {
-      flex-direction: column;
+    .home {
+      padding: 24px 16px;
     }
-    .sidebar-container {
-      display: block;
-      width: 100%;
-    }
-    .content {
-      display: none;
-    }
-    .layout.show-detail .sidebar-container {
-      display: none;
-    }
-    .layout.show-detail .content {
-      display: block;
-    }
-    .back-btn {
-      display: block;
+    .card-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

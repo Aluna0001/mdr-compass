@@ -1,35 +1,41 @@
 <script lang="ts">
-  let { currentPage = 'console', isAdmin = false, onLogout }: { currentPage?: string; isAdmin?: boolean; onLogout: () => void } = $props()
+  let { currentPage = 'home', isAdmin = false, onLogout }: { currentPage?: string; isAdmin?: boolean; onLogout: () => void } = $props()
 </script>
 
 <header class="topnav">
   <div class="left">
-    <div class="logo">
-      <span class="logo-icon">◊</span>
-    </div>
-    <span class="app-name">MDR Compass</span>
+    <a href="/" class="brand">
+      <div class="logo">
+        <span class="logo-icon">◊</span>
+      </div>
+      <span class="app-name">MDR Compass</span>
+    </a>
     <span class="page-label">
       {#if currentPage === 'admin'}
         ADMIN
       {:else if currentPage === 'processes'}
         PROCESS ATLAS
-      {:else}
+      {:else if currentPage === 'news'}
+        SECURITY NEWS
+      {:else if currentPage === 'console'}
         ANALYST CONSOLE
+      {:else}
+        HOME
       {/if}
     </span>
   </div>
   <div class="right">
-      {#if currentPage === 'admin'}
-        <a href="/" class="nav-link">← Back to analyst console</a>
-      {:else if currentPage === 'processes'}
-        <a href="/" class="nav-link">← Back to analyst console</a>
-      {:else}
-        <a href="/processes" class="nav-link nav-atlas">Process Atlas</a>
-        {#if isAdmin}
-          <a href="/admin" class="nav-link nav-settings">⚙</a>
-        {/if}
+    {#if currentPage === 'home'}
+      {#if isAdmin}
+        <a href="/admin" class="nav-link nav-settings">⚙</a>
       {/if}
-      <button class="nav-logout" onclick={onLogout}>Log out</button>
+    {:else}
+      <a href="/" class="nav-link">← Back to home</a>
+      {#if isAdmin}
+        <a href="/admin" class="nav-link nav-settings">⚙</a>
+      {/if}
+    {/if}
+    <button class="nav-logout" onclick={onLogout}>Log out</button>
   </div>
 </header>
 
@@ -47,6 +53,12 @@
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
   }
   .logo {
     width: 24px;
@@ -95,29 +107,29 @@
     border-radius: 4px;
   }
   .nav-atlas:hover {
-      border-color: var(--teal);
-      color: var(--teal);
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .nav-logout {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .nav-logout:hover {
+    border-color: var(--kc-exfil);
+    color: var(--kc-exfil);
+  }
+  @media (max-width: 768px) {
+    .page-label {
+      display: none;
     }
-    .nav-logout {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      color: var(--text-secondary);
-      font-size: 12px;
-      padding: 4px 10px;
-      cursor: pointer;
-      font-family: inherit;
+    .app-name {
+      font-size: 13px;
     }
-    .nav-logout:hover {
-      border-color: var(--kc-exfil);
-      color: var(--kc-exfil);
-    }
-    @media (max-width: 768px) {
-      .page-label {
-        display: none;
-      }
-      .app-name {
-        font-size: 13px;
-      }
-    }
-  </style>
+  }
+</style>

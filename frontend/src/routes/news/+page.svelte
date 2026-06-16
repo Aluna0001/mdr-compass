@@ -13,31 +13,39 @@
   loadNews()
 </script>
 
-<div class="news">
-  <header class="news-header">
-    <h1>Security News</h1>
-    <p class="subtitle">Latest headlines from The Hacker News.</p>
-  </header>
+<div class="news-bg">
+  <div class="news">
+    <header class="news-header">
+      <h1>Security News</h1>
+      <p class="subtitle">Latest headlines from The Hacker News.</p>
+    </header>
 
-  {#if loading}
-    <p class="status">Loading news...</p>
-  {:else if news.length === 0}
-    <p class="status">No news available right now.</p>
-  {:else}
-    <ul class="news-list">
-      {#each news as item}
-        <li class="news-item">
-          <a href={item.link} target="_blank" rel="noopener noreferrer">
-            <span class="news-title">{item.title}</span>
-            <span class="news-date">{item.pubDate}</span>
-          </a>
-        </li>
-      {/each}
-    </ul>
-  {/if}
+    {#if loading}
+      <p class="status">Loading news...</p>
+    {:else if news.length === 0}
+      <p class="status">No news available right now.</p>
+    {:else}
+      <ul class="news-list">
+        {#each news as item}
+          <li class="news-item">
+            <a href={item.link} target="_blank" rel="noopener noreferrer">
+              <span class="news-title">{item.title}</span>
+              <span class="news-date">{item.pubDate}</span>
+            </a>
+          </li>
+        {/each}
+      </ul>
+    {/if}
+  </div>
 </div>
 
 <style>
+  .news-bg {
+    min-height: calc(100vh - 48px);
+    background-image: linear-gradient(rgba(13, 17, 23, 0.88), rgba(13, 17, 23, 0.92)), url('/cyber.jpg');
+    background-size: cover;
+    background-position: center;
+  }
   .news {
     max-width: 800px;
     margin: 0 auto;

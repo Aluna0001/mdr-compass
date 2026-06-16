@@ -13,10 +13,12 @@
   let isAdmin = $derived(role === 'ROLE_ADMIN')
 
   let currentPage = $derived(
-    page.url.pathname.startsWith('/admin') ? 'admin' :
-    page.url.pathname.startsWith('/processes') ? 'processes' :
-    'console'
-  )
+  page.url.pathname.startsWith('/admin') ? 'admin' :
+  page.url.pathname.startsWith('/processes') ? 'processes' :
+  page.url.pathname.startsWith('/news') ? 'news' :
+  page.url.pathname.startsWith('/console') ? 'console' :
+  'home'
+)
 
   async function verifyAuth() {
     const result = await checkAuth()
@@ -47,7 +49,7 @@
   <div class="no-access">
     <h1>Access denied</h1>
     <p>You do not have permission to view this page.</p>
-    <a href="/">← Back to analyst console</a>
+    <a href="/console">← Back to analyst console</a>
   </div>
 {:else}
   <TopNav {currentPage} {isAdmin} onLogout={handleLogout} />
