@@ -7,6 +7,15 @@
   let alerts = $state<Alert[]>([])
   let editingAlert = $state<Alert | null>(null)
   let showForm = $state(false)
+  let searchQuery = $state('')
+
+  let filteredAlerts = $derived(
+    alerts.filter(a =>
+      a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      a.mitreId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      a.killChain.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  )
 
   async function loadAlerts() {
     alerts = await getAlerts()
@@ -56,8 +65,14 @@
       </div>
       <button class="btn-new" onclick={handleNew}>+ New alert</button>
     </div>
+    <input
+      class="search"
+      type="text"
+      placeholder="Search alerts..."
+      bind:value={searchQuery}
+    />
     <AlertList
-      {alerts}
+      alerts={filteredAlerts}
       onEdit={handleEdit}
       onDelete={handleDelete}
     />
@@ -98,5 +113,20 @@
   }
   .btn-new:hover {
     opacity: 0.9;
+  }
+  .search {
+    width: 100%;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+  }
+  .search:focus {
+    border-color: var(--ring);
   }
 </style>
