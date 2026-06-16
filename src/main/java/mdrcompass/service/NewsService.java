@@ -26,7 +26,7 @@ public class NewsService {
 
     private static final Logger logger = LoggerFactory.getLogger(NewsService.class);
     private static final String FEED_URL = "https://feeds.feedburner.com/TheHackersNews";
-    private static final int MAX_ITEMS = 8;
+    private static final int MAX_ITEMS = 15;
     private static final Duration CACHE_TTL = Duration.ofMinutes(15);
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
