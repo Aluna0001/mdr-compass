@@ -1,9 +1,18 @@
 import type { Alert } from './types'
+import type { NewsItem } from './types'
 
 const BASE_URL = import.meta.env.DEV ? 'http://localhost:8080/api' : '/api'
 
 const fetchOptions: RequestInit = {
   credentials: 'include'
+}
+
+export async function getNews(): Promise<NewsItem[]> {
+  const response = await fetch(`${BASE_URL}/news`, fetchOptions)
+  if (!response.ok) {
+    return []
+  }
+  return response.json()
 }
 
 export async function login(username: string, password: string): Promise<boolean> {

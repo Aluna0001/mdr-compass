@@ -19,3 +19,9 @@ export interface Alert {
   suspiciousIndicators: string[]
   relatedProcesses: RelatedProcess[]
 }
+
+export interface NewsItem {
+  title: string
+  link: string
+  pubDate: string
+}
