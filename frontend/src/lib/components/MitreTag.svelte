@@ -1,8 +1,12 @@
 <script lang="ts">
   let { id }: { id: string } = $props()
+
+  let mitreUrl = $derived(
+    'https://attack.mitre.org/techniques/' + id.replace('.', '/') + '/'
+  )
 </script>
 
-<span class="tag">MITRE {id}</span>
+<a class="tag" href={mitreUrl} target="_blank" rel="noopener noreferrer">MITRE {id}</a>
 
 <style>
   .tag {
@@ -16,5 +20,10 @@
     background: rgba(93, 202, 165, 0.1);
     color: var(--teal);
     border: 1px solid rgba(93, 202, 165, 0.3);
+    text-decoration: none;
+  }
+  .tag:hover {
+    background: rgba(93, 202, 165, 0.2);
+    border-color: var(--teal);
   }
 </style>
