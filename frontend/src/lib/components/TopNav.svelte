@@ -27,12 +27,14 @@
   <div class="right">
     {#if currentPage === 'home'}
       {#if isAdmin}
-        <a href="/admin" class="nav-link nav-settings">⚙</a>
+        <a href="/admin" class="nav-link nav-pill">Alert editor</a>
+        <a href="http://131.163.89.66:3000/d/gr255ps/mdr-compass?orgId=1&from=now-6h&to=now&timezone=browser" target="_blank" rel="noopener noreferrer" class="nav-link nav-pill">Grafana</a>
       {/if}
     {:else}
       <a href="/" class="nav-link">← Back to home</a>
       {#if isAdmin}
-        <a href="/admin" class="nav-link nav-settings">⚙</a>
+        <a href="/admin" class="nav-link nav-pill">Alert editor</a>
+        <a href="http://131.163.89.66:3000/d/gr255ps/mdr-compass?orgId=1&from=now-6h&to=now&timezone=browser" target="_blank" rel="noopener noreferrer" class="nav-link nav-pill">Grafana</a>
       {/if}
     {/if}
     <button class="nav-logout" onclick={onLogout}>Log out</button>
@@ -100,15 +102,15 @@
   .nav-link:hover {
     color: var(--text-primary);
   }
-  .nav-atlas {
+  .nav-pill {
     font-size: 12px;
     padding: 4px 10px;
     border: 1px solid var(--border);
     border-radius: 4px;
   }
-  .nav-atlas:hover {
-    border-color: var(--teal);
-    color: var(--teal);
+  .nav-pill:hover {
+    border-color: var(--ring);
+    color: var(--ring);
   }
   .nav-logout {
     background: none;
