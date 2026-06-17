@@ -3,11 +3,15 @@
   import { getAlerts, deleteAlert } from '$lib/api'
   import AlertList from '$lib/components/AlertList.svelte'
   import AlertForm from '$lib/components/AlertForm.svelte'
+  import Toast from '$lib/components/Toast.svelte'
 
   let alerts = $state<Alert[]>([])
   let editingAlert = $state<Alert | null>(null)
   let showForm = $state(false)
   let searchQuery = $state('')
+
+  let toastMessage = $state('')
+  let toastVisible = $state(false)
 
   let filteredAlerts = $derived(
     alerts.filter(a =>
@@ -16,6 +20,14 @@
       a.killChain.toLowerCase().includes(searchQuery.toLowerCase())
     )
   )
+
+  function showToast(message: string) {
+    toastMessage = message
+    toastVisible = true
+    setTimeout(() => {
+      toastVisible = false
+    }, 2000)
+  }
 
   async function loadAlerts() {
     alerts = await getAlerts()
@@ -34,12 +46,15 @@
   async function handleDelete(id: number) {
     await deleteAlert(id)
     await loadAlerts()
+    showToast('Alert deleted')
   }
 
   function handleSaved() {
+    const wasEditing = editingAlert !== null
     showForm = false
     editingAlert = null
     loadAlerts()
+    showToast(wasEditing ? 'Alert updated' : 'Alert created')
   }
 
   function handleCancel() {
@@ -78,6 +93,8 @@
     />
   {/if}
 </div>
+
+<Toast message={toastMessage} visible={toastVisible} />
 
 <style>
   .admin {
